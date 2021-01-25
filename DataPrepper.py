@@ -3,6 +3,7 @@ from io import StringIO
 import pandas as pd
 import plotly.express as px
 import config
+from plotly.graph_objs import *
 
 abbr = {"wd": "Water Level",
         "td": "Temperature",
@@ -24,6 +25,11 @@ def remove_outliers(indicator, df, col):
     df = df[df[col] != float(indicator)]
     return df[df[col] != indicator]
 
+lay = Layout(
+    plot_bgcolor="rgb(214, 213, 197)",
+    paper_bgcolor="rgb(214, 213, 197)"
+)
+
 
 class DataPrepperWasserportal:
     def __init__(self, base):
@@ -42,6 +48,7 @@ class DataPrepperWasserportal:
 
         fig = px.line(df, x="Datum", y=abbr[measurement], title=abbr[measurement])
         fig.update_layout(template="simple_white")
+        fig.layout.plot_bgcolor = "#d6d5c5"
         return fig
 
     def get_daily_data(self, measurement, stationid, from_when, out_format="c"):
