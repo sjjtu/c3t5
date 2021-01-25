@@ -2,6 +2,7 @@ import requests
 from io import StringIO
 import pandas as pd
 import plotly.express as px
+import config
 
 abbr = {"wd": "Water Level",
         "td": "Temperature",
@@ -59,7 +60,7 @@ class DataPrepperWasserportal:
 
 
 class DataPrepperWeather:
-    key = "087ee414dd8c90c4abb99b25872c5680"
+    key = config.key
     base_cur = f"https://api.openweathermap.org/data/2.5/weather?appid={key}"
     base_fore = f"pro.openweathermap.org/data/2.5/forecast/hourly?appid={key}"
 
