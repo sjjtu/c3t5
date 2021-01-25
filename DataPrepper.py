@@ -57,5 +57,22 @@ class DataPrepperWasserportal:
         df = pd.read_csv(StringIO(data), sep=";")
         return df
 
-    def draw_graph(self):
-        pass
+
+class DataPrepperWeather:
+    key = "087ee414dd8c90c4abb99b25872c5680"
+    base_cur = f"https://api.openweathermap.org/data/2.5/weather?appid={key}"
+    base_fore = f"pro.openweathermap.org/data/2.5/forecast/hourly?appid={key}"
+
+    def get_data(self, zip):
+        curr = requests.get(self.base_cur + f"&zip={zip},de").json()
+        fore = requests.get(self.base_fore + f"zip{zip},de").json()
+        temp_curr = curr["main"]["temp"]
+        temp_fore = fore["list"]["main"]["temp"]
+        rain_last1 = curr["rain"] if "rain" in curr else 0
+        prob_prec = fore["list"]["pop"] if "pop" in fore["list"] else 0
+        return{
+            "temp_curr": temp_curr,
+            "rain_last1": rain_last1,
+            "temp_fore": temp_fore,
+            "prob_prec": prob_prec
+        }
