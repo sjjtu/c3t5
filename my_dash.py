@@ -5,7 +5,7 @@ from DataPrepper import DataPrepperWasserportal, DataPrepperWeather, get_all_sta
 
 measurement = "td"
 stationid = "5865900"
-from_when = "25.01.2021"
+from_when = "26.01.2021"
 
 weather_widget = """<a class="weatherwidget-io" href="https://forecast7.com/en/52d5413d50/13055/" data-label_1="Berlin" data-label_2="13055" data-font="Roboto Slab" data-icons="Climacons Animated" data-days="3" data-theme="original" data-basecolor="#406682" >13055 13055</a>
 <script>
@@ -40,12 +40,12 @@ app.layout = html.Div(style={"background-color": "#d6d5c5"}, children=[
 
 
     html.Div([
-        html.Div([html.P("TEMP",  style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("0 °C", id="temp")], className="block"),
+        html.Div([html.P("TEMP",  style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("0 °C", id="temp")], className="block"),
 
-        html.Div([html.P("WATER LEVEL", style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("12 m", id="wl")], className="block"),
+        html.Div([html.P("WATER LEVEL", style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("12 m", id="wl")], className="block"),
 
-        html.Div([html.P("FLOW", style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("12 km/h", id="flow")], className="block")
-    ]),
+        html.Div([html.P("FLOW", style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("12 m³/s", id="flow")], className="block")
+    ], className="Row"),
 
     html.Div([html.Div(
         dcc.Graph(
@@ -58,11 +58,11 @@ app.layout = html.Div(style={"background-color": "#d6d5c5"}, children=[
 
 
     html.Div([
-        html.Div([html.P("pH", style={"color": "#a1f57a", "font-family": "Roboto Slab"}), html.P("7", id="ph")], className="block"),
+        html.Div([html.P("pH", style={"color": "#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("7", id="ph")], className="block", style={"width": "20%"}),
 
-        html.Div([html.P("O2", style={"color": "#a1f57a", "font-family": "Roboto Slab"}), html.P("4 mg/l", id="o2")], className="block"),
+        html.Div([html.P("O2", style={"color": "#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("4 mg/l", id="o2")], className="block", style={"width": "25%"}),
 
-        html.Div([html.P("O2 sat", style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("12%", id="o2_sat")], className="block")
+        html.Div([html.P("O2 sat", style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("12%", id="o2_sat")], className="block", style={"width": "20%"})
     ]),
 
     html.Div(
@@ -139,7 +139,7 @@ def update_val(id):
         dash.dependencies.Input("water", "value")
 )
 def update_val(id):
-    return str(dp_water.return_recent_data("ld", id, from_when)) + " m/s"
+    return str(dp_water.return_recent_data("ld", id, from_when)/1000) + " m³/s"
 
 
 

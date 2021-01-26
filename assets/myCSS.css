@@ -3,7 +3,15 @@
   src: url("fonts/RobotoSlab-VariableFont_wght.ttf");
 }
 
+.blink_me {
+  animation: blinker 3s linear infinite;
+}
 
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 
 
 div.graph{
@@ -18,9 +26,15 @@ div.graph{
     padding: 10px;
 }
 
+
+
+.row {
+  display: flex; /* equal height of the children */
+}
+
 div.block
 {
-    margin: 5px;
+    margin: 8px;
     color: #fffffc;
     background-color: #406682;
     border-radius: 20px;
@@ -30,7 +44,6 @@ div.block
     alignment: center;
     font-family: 'Roboto Slab', serif;
     padding: 10px;
-    width: 20%
 }
 
 iframe{
