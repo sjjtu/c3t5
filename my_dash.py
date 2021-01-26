@@ -22,9 +22,10 @@ app = dash.Dash(__name__, external_stylesheets=["https://codepen.io/chriddyp/pen
     ])
 
 
-app.layout = html.Div(style={"background-color": "#d6d5c5"}, children=[
+app.layout = html.Div(style={"background-color": "#d6d5c5", "background-image": "url('assets/Thank_you.jpg')", "background-size": "contain"}, children=[
     #html.H4("Monitor"),
     #html.Div("Your latest Graphs"),
+    html.Div(style={"height":"50px"}),
     html.Iframe(srcDoc=weather_widget),
 
     html.Div([
