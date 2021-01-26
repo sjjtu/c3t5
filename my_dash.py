@@ -1,7 +1,7 @@
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
-from DataPrepper import DataPrepperWasserportal, DataPrepperWeather
+from DataPrepper import DataPrepperWasserportal, DataPrepperWeather, get_all_stations
 
 measurement = "td"
 stationid = "5865900"
@@ -27,43 +27,120 @@ app.layout = html.Div(style={"background-color": "#d6d5c5"}, children=[
     #html.Div("Your latest Graphs"),
     html.Iframe(srcDoc=weather_widget),
 
-    dcc.Dropdown(
-        id="water",
-        options=[
-            {'label': 'New York City', 'value': 'NYC'},
-            {'label': 'Montreal', 'value': 'MTL'},
-            {'label': 'San Francisco', 'value': 'SF'}
-        ]
-    ),
-
     html.Div([
-        html.Div("0 °C", className="block"),
+        html.H4(html.B("Your graphs for", style={"font-family": "Roboto Slab", "text-align": "central"})),
 
-        html.Div("12 m", className="block"),
+        dcc.Dropdown(
+            id="water",
+            options= get_all_stations()
+        )
 
-        html.Div("14k m/h", className="block")
-    ]),
-
-    dcc.Graph(
-        id="graph1",
-        figure=dp_water.get_single_data(measurement, stationid, from_when),
-        style={"background-color": "#d6d5c5"}
-    ),
-
-    html.Div([
-        html.Div("pH", className="block"),
-
-        html.Div("O2", className="block"),
-
-        html.Div("50%", className="block")
     ]),
 
 
-    dcc.Graph(
-        id="graph2",
-        figure=dp_water.get_single_data("wd", stationid, from_when)
+
+    html.Div([
+        html.Div([html.P("TEMP",  style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("0 °C", id="temp")], className="block"),
+
+        html.Div([html.P("WATER LEVEL", style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("12 m", id="wl")], className="block"),
+
+        html.Div([html.P("FLOW", style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("12 km/h", id="flow")], className="block")
+    ]),
+
+    html.Div([html.Div(
+        dcc.Graph(
+            id="graph1",
+            config={"displayModeBar": False},
+            figure=dp_water.get_single_data(measurement, stationid, from_when)
+        ), className="graph"
+
+    )]),
+
+
+    html.Div([
+        html.Div([html.P("pH", style={"color": "#a1f57a", "font-family": "Roboto Slab"}), html.P("7", id="ph")], className="block"),
+
+        html.Div([html.P("O2", style={"color": "#a1f57a", "font-family": "Roboto Slab"}), html.P("4 mg/l", id="o2")], className="block"),
+
+        html.Div([html.P("O2 sat", style={"color":"#a1f57a", "font-family": "Roboto Slab"}), html.P("12%", id="o2_sat")], className="block")
+    ]),
+
+    html.Div(
+        dcc.Graph(
+            id = "graph2",
+            figure=dp_water.get_single_data("wd", stationid, from_when),
+            style={"height": "50%", "width": "100%"},
+            config={"displayModeBar": False}
+        ), className="graph"
+
     )
+
 ])
+
+
+@app.callback(
+        dash.dependencies.Output("graph1", "figure"),
+        dash.dependencies.Input("water", "value")
+)
+def update_graph(id):
+    return dp_water.get_single_data("td", id, from_when)
+
+
+@app.callback(
+        dash.dependencies.Output("graph2", "figure"),
+        dash.dependencies.Input("water", "value")
+)
+def update_graph(id):
+    return dp_water.get_single_data("wd", id, from_when)
+
+
+@app.callback(
+        dash.dependencies.Output("temp", "children"),
+        dash.dependencies.Input("water", "value")
+)
+def update_val(id):
+    return str(dp_water.return_recent_data("td", id, from_when)) + " °C"
+
+
+@app.callback(
+        dash.dependencies.Output("wl", "children"),
+        dash.dependencies.Input("water", "value")
+)
+def update_val(id):
+    return str(dp_water.return_recent_data("wd", id, from_when)) + " m"
+
+
+@app.callback(
+        dash.dependencies.Output("ph", "children"),
+        dash.dependencies.Input("water", "value")
+)
+def update_val(id):
+    return dp_water.return_recent_data("pd", id, from_when)
+
+
+@app.callback(
+        dash.dependencies.Output("o2", "children"),
+        dash.dependencies.Input("water", "value")
+)
+def update_val(id):
+    return str(dp_water.return_recent_data("od", id, from_when)) + " mg/L"
+
+
+@app.callback(
+        dash.dependencies.Output("o2_sat", "children"),
+        dash.dependencies.Input("water", "value")
+)
+def update_val(id):
+    return str(dp_water.return_recent_data("dd", id, from_when)) + " %"
+
+
+@app.callback(
+        dash.dependencies.Output("flow", "children"),
+        dash.dependencies.Input("water", "value")
+)
+def update_val(id):
+    return str(dp_water.return_recent_data("ld", id, from_when)) + " m/s"
+
 
 
 if __name__ == "__main__":

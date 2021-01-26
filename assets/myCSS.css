@@ -1,9 +1,22 @@
 @font-face {
   font-family: "Roboto Slab";
-  src: url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
-   font-weight: normal;
-   font-style: normal
- }
+  src: url("fonts/RobotoSlab-VariableFont_wght.ttf");
+}
+
+
+
+
+div.graph{
+    margin: 5px;
+    color: #fffffc;
+    background-color: #406682;
+    border-radius: 20px;
+    -moz-border-radius: 15px;
+    text-align: center;
+    alignment: center;
+    font-family: 'Roboto Slab', serif;
+    padding: 10px;
+}
 
 div.block
 {
@@ -13,12 +26,11 @@ div.block
     border-radius: 20px;
     -moz-border-radius: 15px;
     text-align: center;
-    width: 25%;
-    height: 50%;
     display: inline-block;
     alignment: center;
     font-family: 'Roboto Slab', serif;
-    padding: 5px;
+    padding: 10px;
+    width: 20%
 }
 
 iframe{
@@ -30,3 +42,5 @@ iframe{
     border: 0;
     height: 350px;
 }
+
+

@@ -2,7 +2,7 @@ import requests
 from io import StringIO
 import pandas as pd
 import plotly.express as px
-import config
+#import config
 from plotly.graph_objs import *
 
 abbr = {"wd": "Water Level",
@@ -25,15 +25,32 @@ def remove_outliers(indicator, df, col):
     df = df[df[col] != float(indicator)]
     return df[df[col] != indicator]
 
-lay = Layout(
-    plot_bgcolor="rgb(214, 213, 197)",
-    paper_bgcolor="rgb(214, 213, 197)"
-)
+
+def get_all_stations():
+    df = pd.read_csv("station.csv", header=None, encoding="windows-1252")
+    df.rename(columns={0: "id", 1: "name"}, inplace=True)
+    df.drop_duplicates(inplace=True)
+    l = []
+    for index, row in df.iterrows():
+        l.append({"label": row["name"], "value": row.id})
+    return l
 
 
 class DataPrepperWasserportal:
     def __init__(self, base):
         self.base = base
+
+    def return_recent_data(self, measurement, stationid, from_when, out_format="c"):
+        url = f"{self.base}anzeige={measurement}&sstation={stationid}&sreihe=w&smode={out_format}&sdatum={from_when}"
+        r = requests.get(url, allow_redirects=True)
+        data = r.content.decode("windows-1252")
+        df = pd.read_csv(StringIO(data), sep=";", decimal=",")
+        df.Datum = pd.to_datetime(df['Datum'], format="%d.%m.%Y %H:%M")
+        df.rename(columns={"Einzelwert": abbr[measurement]}, inplace=True)
+        df[abbr[measurement]].astype(float)
+        indic = find_outlier_indicator(data)
+        df = remove_outliers(indic, df, abbr[measurement])
+        return df[abbr[measurement]].iloc[-1]
 
     def get_single_data(self, measurement, stationid, from_when, out_format="c"):
         url = f"{self.base}anzeige={measurement}&sstation={stationid}&sreihe=w&smode={out_format}&sdatum={from_when}"
@@ -47,8 +64,14 @@ class DataPrepperWasserportal:
         df = remove_outliers(indic, df, abbr[measurement])
 
         fig = px.line(df, x="Datum", y=abbr[measurement], title=abbr[measurement])
-        fig.update_layout(template="simple_white")
-        fig.layout.plot_bgcolor = "#d6d5c5"
+        fig.update_layout(height=200, margin=dict(t=30, r=0, l=0, b=30))
+        fig.update_yaxes(title="")
+        fig.layout.plot_bgcolor = "#406682"
+        fig.layout.yaxis.gridcolor = "#6bb0e3"
+        fig.layout.xaxis.gridcolor = "#6bb0e3"
+        fig.layout.paper_bgcolor = "#406682"
+        fig.layout.font.color = "#ffffff"
+        fig.update_traces({"line": {"color": "white"}})
         return fig
 
     def get_daily_data(self, measurement, stationid, from_when, out_format="c"):
@@ -67,7 +90,7 @@ class DataPrepperWasserportal:
 
 
 class DataPrepperWeather:
-    key = config.key
+    key = "config.key"
     base_cur = f"https://api.openweathermap.org/data/2.5/weather?appid={key}"
     base_fore = f"pro.openweathermap.org/data/2.5/forecast/hourly?appid={key}"
 
