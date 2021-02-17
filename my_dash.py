@@ -39,7 +39,7 @@ app.layout = html.Div(style={"background-color": "white", "background-size": "co
     ]),
 
     #html.Button("Open Card 1", id="button1"),
-    html.Div([
+    html.Div([html.H4("", id="title"),
         html.Div([
             html.Div([html.P("TEMP", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
                       html.P("0 °C", id="temp")], className="block"),
@@ -95,8 +95,10 @@ app.layout = html.Div(style={"background-color": "white", "background-size": "co
             [html.P("Flow rate", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
              html.P("10.8 l/min")], className="block",
             style={"width": "20%"}),
-        html.Div([html.P("Energy", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
-                  html.P("0.57 kWh")], className="block", style={"width": "20%"})
+        html.Div([html.P("Energy", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
+                  html.P("0.57 kWh")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Water", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
+                  html.P("15 L")], className="block", style={"width": "20%"})
     ], className="card", id="card2"),
     html.Br(),
 
@@ -107,8 +109,9 @@ app.layout = html.Div(style={"background-color": "white", "background-size": "co
         html.Div([html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
                       html.P("OK", style={"background-color":"orange"}, className="wq")], className="block", style={"width": "20%"}),
         html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.Br(),
                       html.P("67%")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                       html.P("3°C")], className="block", style={"width": "20%"}),
 
     ], className="card", id="card3"),
@@ -119,9 +122,9 @@ app.layout = html.Div(style={"background-color": "white", "background-size": "co
         html.Div(
             [html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
              html.P("Bad", style={"background-color":"red"}, className="wq")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                   html.P("3%")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                   html.P("25°C")], className="block", style={"width": "20%"}),
     ], className="card", id="card4"),
 
@@ -131,9 +134,9 @@ app.layout = html.Div(style={"background-color": "white", "background-size": "co
         html.Div(
             [html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
              html.P("Good", style={"background-color":"green"}, className="wq")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                   html.P("45%")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                   html.P("20°C")], className="block", style={"width": "20%"}),
     ], className="card", id="card5"),
 
@@ -143,9 +146,9 @@ app.layout = html.Div(style={"background-color": "white", "background-size": "co
         html.Div(
             [html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
              html.P("Good", style={"background-color":"green"}, className="wq")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                   html.P("45%")], className="block", style={"width": "20%"}),
-        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),html.Br(),
                   html.P("20°C")], className="block", style={"width": "20%"}),
     ], className="card")
 
@@ -192,6 +195,13 @@ def button_toggle(n_clicks):
 )
 def update_graph(id):
     return dp_water.get_single_data("td", id, from_when)
+
+@app.callback(
+        dash.dependencies.Output("title", "inner_html"),
+        dash.dependencies.Input("water", "value")
+)
+def update_title(id):
+    return id
 
 
 @app.callback(
