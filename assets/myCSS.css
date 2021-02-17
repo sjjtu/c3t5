@@ -2,7 +2,7 @@
   font-family: "Roboto Slab";
   src: url("fonts/RobotoSlab-VariableFont_wght.ttf");
 }
-
+/**
 .blink_me {
   animation: blinker 3s linear infinite;
 }
@@ -12,12 +12,10 @@
     opacity: 0;
   }
 }
-
+**/
 
 div.graph{
     margin: 5px;
-    color: #fffffc;
-    background-color: #406682;
     border-radius: 20px;
     -moz-border-radius: 15px;
     text-align: center;
@@ -26,7 +24,19 @@ div.graph{
     padding: 10px;
 }
 
+.card{
+    background-color: #83daec;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 30px;
+}
 
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
 
 .row {
   display: flex; /* equal height of the children */
@@ -34,9 +44,8 @@ div.graph{
 
 div.block
 {
+    background-color: white;
     margin: 8px;
-    color: #fffffc;
-    background-color: #406682;
     border-radius: 20px;
     -moz-border-radius: 15px;
     text-align: center;
@@ -46,9 +55,13 @@ div.block
     padding: 10px;
 }
 
+button{
+    width: 100%;
+}
+
 iframe{
     margin: 10px;
-    background-color: #406682;
+    background-color: #83daec;
     border-radius: 20px;
     -moz-border-radius: 15px;
     alignment: center;
@@ -56,4 +69,11 @@ iframe{
     height: 350px;
 }
 
+body{
+    font-family: 'Roboto Slab', serif;
+}
+
+.wq{
+    border-radius: 20px;
+}
 

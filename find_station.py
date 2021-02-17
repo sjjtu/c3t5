@@ -2,7 +2,7 @@ from selenium import webdriver
 import csv
 
 path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
-browser = webdriver.Chrome()
+browser = webdriver.Firefox(firefox_binary="/usr/bin/firefox")
 url = "https://wasserportal.berlin.de/station.php?anzeige=i&sstation=5865900"
 browser.get(url)
 l = []

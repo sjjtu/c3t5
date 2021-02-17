@@ -22,7 +22,7 @@ app = dash.Dash(__name__, external_stylesheets=["https://codepen.io/chriddyp/pen
     ])
 
 
-app.layout = html.Div(style={"background-color": "#d6d5c5", "background-image": "url('assets/Thank_you.jpg')", "background-size": "contain"}, children=[
+app.layout = html.Div(style={"background-color": "white", "background-size": "contain"}, children=[
     #html.H4("Monitor"),
     #html.Div("Your latest Graphs"),
     html.Div(style={"height":"50px"}),
@@ -38,45 +38,152 @@ app.layout = html.Div(style={"background-color": "#d6d5c5", "background-image": 
 
     ]),
 
+    #html.Button("Open Card 1", id="button1"),
+    html.Div([
+        html.Div([
+            html.Div([html.P("TEMP", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("0 °C", id="temp")], className="block"),
 
+            html.Div(
+                [html.P("WATER LEVEL", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                 html.P("12 m", id="wl")], className="block"),
+
+            html.Div([html.P("FLOW", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("12 m³/s", id="flow")], className="block")
+        ], className="Row"),
+
+
+        html.Div([
+
+            html.Div(
+            dcc.Graph(
+                id="graph1",
+                config={"displayModeBar": False},
+                figure=dp_water.get_single_data(measurement, stationid, from_when)
+            ), className="graph"
+
+        )]),
+
+        html.Div([
+            html.Div([html.P("pH", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("7", id="ph")], className="block", style={"width": "20%"}),
+
+            html.Div([html.P("O2", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("4 mg/l", id="o2")], className="block", style={"width": "25%"}),
+
+            html.Div([html.P("O2 sat", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("12%", id="o2_sat")], className="block", style={"width": "20%"})
+        ]),
+
+        # html.Div(
+        #     dcc.Graph(
+        #         id="graph2",
+        #         figure=dp_water.get_single_data("wd", stationid, from_when),
+        #         style={"height": "50%", "width": "100%"},
+        #         config={"displayModeBar": False}
+        #     ), className="graph"
+        #
+        # )
+    ], className="card", id ="card1"),
+    html.Br(),
+
+
+    #html.Button("Open Card 2", id="button2"),
+    html.Div([
+        html.H4("Amphiro"),
+        html.Div(
+            [html.P("Flow rate", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+             html.P("10.8 l/min")], className="block",
+            style={"width": "20%"}),
+        html.Div([html.P("Energy", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("0.57 kWh")], className="block", style={"width": "20%"})
+    ], className="card", id="card2"),
+    html.Br(),
+
+    #html.Button("Open Card 3", id="button3"),
+    html.Div([
+        html.H4("Orankesee"),
+        #html.Img(src="assets/bade_eu.png"),
+        html.Div([html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("OK", style={"background-color":"orange"}, className="wq")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("67%")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                      html.P("3°C")], className="block", style={"width": "20%"}),
+
+    ], className="card", id="card3"),
 
     html.Div([
-        html.Div([html.P("TEMP",  style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("0 °C", id="temp")], className="block"),
-
-        html.Div([html.P("WATER LEVEL", style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("12 m", id="wl")], className="block"),
-
-        html.Div([html.P("FLOW", style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("12 m³/s", id="flow")], className="block")
-    ], className="Row"),
-
-    html.Div([html.Div(
-        dcc.Graph(
-            id="graph1",
-            config={"displayModeBar": False},
-            figure=dp_water.get_single_data(measurement, stationid, from_when)
-        ), className="graph"
-
-    )]),
-
+        html.H4("Weissensee"),
+        # html.Img(src="assets/bade_eu.png"),
+        html.Div(
+            [html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+             html.P("Bad", style={"background-color":"red"}, className="wq")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("3%")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("25°C")], className="block", style={"width": "20%"}),
+    ], className="card", id="card4"),
 
     html.Div([
-        html.Div([html.P("pH", style={"color": "#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("7", id="ph")], className="block", style={"width": "20%"}),
+        html.H4("Ploetzensee"),
+        # html.Img(src="assets/bade_eu.png"),
+        html.Div(
+            [html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+             html.P("Good", style={"background-color":"green"}, className="wq")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("45%")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("20°C")], className="block", style={"width": "20%"}),
+    ], className="card", id="card5"),
 
-        html.Div([html.P("O2", style={"color": "#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("4 mg/l", id="o2")], className="block", style={"width": "25%"}),
+    html.Div([
+        html.H4("Ploetzensee"),
+        # html.Img(src="assets/bade_eu.png"),
+        html.Div(
+            [html.P("Water Quality", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+             html.P("Good", style={"background-color":"green"}, className="wq")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Capacity", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("45%")], className="block", style={"width": "20%"}),
+        html.Div([html.P("Temp", style={"color": "#006300", "font-family": "Roboto Slab"}, className="blink_me"),
+                  html.P("20°C")], className="block", style={"width": "20%"}),
+    ], className="card")
 
-        html.Div([html.P("O2 sat", style={"color":"#a1f57a", "font-family": "Roboto Slab"}, className="blink_me"), html.P("12%", id="o2_sat")], className="block", style={"width": "20%"})
-    ]),
-
-    html.Div(
-        dcc.Graph(
-            id = "graph2",
-            figure=dp_water.get_single_data("wd", stationid, from_when),
-            style={"height": "50%", "width": "100%"},
-            config={"displayModeBar": False}
-        ), className="graph"
-
-    )
 
 ])
+
+
+@app.callback(
+    dash.dependencies.Output('card1', 'style'),
+    [dash.dependencies.Input('button1', 'n_clicks')],
+    )
+def button_toggle(n_clicks):
+    if n_clicks % 2 == 1:
+        return {'display': 'block'}
+    else:
+        return {'display': 'none'}
+
+
+@app.callback(
+    dash.dependencies.Output('card2', 'style'),
+    [dash.dependencies.Input('button2', 'n_clicks')],
+    )
+def button_toggle(n_clicks):
+    if n_clicks % 2 == 1:
+        return {'display': 'block'}
+    else:
+        return {'display': 'none'}
+
+
+@app.callback(
+    dash.dependencies.Output('card3', 'style'),
+    [dash.dependencies.Input('button3', 'n_clicks')],
+    )
+def button_toggle(n_clicks):
+    if n_clicks % 2 == 1:
+        return {'display': 'block'}
+    else:
+        return {'display': 'none'}
 
 
 @app.callback(
@@ -143,6 +250,5 @@ def update_val(id):
     return str(dp_water.return_recent_data("ld", id, from_when)/1000) + " m³/s"
 
 
-
 if __name__ == "__main__":
-    app.run_server(port=5000, debug=True)
+    app.run_server(port=5000, debug=True, host="0.0.0.0")

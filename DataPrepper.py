@@ -66,12 +66,12 @@ class DataPrepperWasserportal:
         fig = px.line(df, x="Datum", y=abbr[measurement], title=abbr[measurement])
         fig.update_layout(height=200, margin=dict(t=30, r=0, l=0, b=30))
         fig.update_yaxes(title="")
-        fig.layout.plot_bgcolor = "#406682"
-        fig.layout.yaxis.gridcolor = "#6bb0e3"
-        fig.layout.xaxis.gridcolor = "#6bb0e3"
-        fig.layout.paper_bgcolor = "#406682"
-        fig.layout.font.color = "#ffffff"
-        fig.update_traces({"line": {"color": "white"}})
+        fig.layout.plot_bgcolor = "#83daec"
+        fig.layout.yaxis.gridcolor = "#ffffff"
+        fig.layout.xaxis.gridcolor = "#ffffff"
+        fig.layout.paper_bgcolor = "#83daec"
+        fig.layout.font.color = "black"
+        fig.update_traces({"line": {"color": "black"}})
         return fig
 
     def get_daily_data(self, measurement, stationid, from_when, out_format="c"):
