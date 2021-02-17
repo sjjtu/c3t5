@@ -2,13 +2,13 @@ from selenium import webdriver
 import csv
 
 path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
-browser = webdriver.Firefox(firefox_binary="/usr/bin/firefox")
+browser = webdriver.Chrome()
 url = "https://wasserportal.berlin.de/station.php?anzeige=i&sstation=5865900"
 browser.get(url)
 l = []
-btn = browser.find_element_by_xpath("//a[@title='Nächste Messstelle']")
-btn.click()
-while url != browser.current_url:
+next_url = ""
+print("sadas")
+while next_url != url:
     nr = browser.find_element_by_xpath("//table/tbody/tr[1]/td[2]").text
     name = browser.find_element_by_xpath("//table/tbody/tr[2]/td[2]").text
     rechtswert = browser.find_element_by_xpath("//table/tbody/tr[last()-1]/td[2]").text
@@ -26,6 +26,8 @@ while url != browser.current_url:
 
     btn = browser.find_element_by_xpath("//a[@title='Nächste Messstelle']")
     btn.click()
+    browser.implicitly_wait(2)
+    next_url = browser.current_url
 
 print(l)
 with open("station.csv", "w", newline="") as file:

@@ -50,7 +50,7 @@ class DataPrepperWasserportal:
         df[abbr[measurement]].astype(float)
         indic = find_outlier_indicator(data)
         df = remove_outliers(indic, df, abbr[measurement])
-        return df[abbr[measurement]].iloc[-1]
+        return df[abbr[measurement]].iloc[-1] if len(df)!=0 else "---"
 
     def get_single_data(self, measurement, stationid, from_when, out_format="c"):
         url = f"{self.base}anzeige={measurement}&sstation={stationid}&sreihe=w&smode={out_format}&sdatum={from_when}"
